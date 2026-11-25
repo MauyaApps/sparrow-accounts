@@ -36,14 +36,13 @@ npm run admin:build
 
 ## Cloudflare
 
-Не используй существующие Cloudflare D1 базы других проектов. В `wrangler.jsonc` пока указан нулевой placeholder, чтобы локальная разработка не затрагивала другие сервисы. Для облачного этапа создай отдельную D1 `sparrow-account-db`, впиши её UUID в конфигурацию, проверь цель и только затем запускай:
+Account API использует отдельную Cloudflare D1 `sparrow-account-db`; её UUID указан в `wrangler.jsonc`. База изолирована от радио и других проектов. Миграция `0001_accounts.sql` применена к этой базе. Для последующего деплоя Worker задай `OPAQUE_SERVER_SETUP` и `TOKEN_SIGNING_KEY` в Cloudflare Secrets, затем запускай:
 
 ```powershell
-npm run migrate:remote
 npm run deploy
 ```
 
-Cloudflare Worker публикует только account API; локальная админ-панель при этом не публикуется. До удалённой миграции и деплоя нужно задать `OPAQUE_SERVER_SETUP` и `TOKEN_SIGNING_KEY` в Cloudflare Secrets. Не пересоздавай `OPAQUE_SERVER_SETUP` после появления аккаунтов: существующие OPAQUE-записи перестанут проверяться.
+Cloudflare Worker публикует только account API; локальная админ-панель при этом не публикуется. Не пересоздавай `OPAQUE_SERVER_SETUP` после появления аккаунтов: существующие OPAQUE-записи перестанут проверяться.
 
 ## API
 
