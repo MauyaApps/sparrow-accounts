@@ -36,13 +36,14 @@ npm run admin:build
 
 ## Cloudflare
 
-Account API использует отдельную Cloudflare D1 `sparrow-account-db`; её UUID указан в `wrangler.jsonc`. База изолирована от радио и других проектов. Миграция `0001_accounts.sql` применена к этой базе. Для последующего деплоя Worker задай `OPAQUE_SERVER_SETUP` и `TOKEN_SIGNING_KEY` в Cloudflare Secrets, затем запускай:
+Account API использует отдельную Cloudflare D1 `sparrow-account-db`; её UUID уже указан в `wrangler.jsonc`. База изолирована от радио и других проектов, миграция `0001_accounts.sql` уже применена. Production secrets `OPAQUE_SERVER_SETUP` и `TOKEN_SIGNING_KEY` задаются в Cloudflare Secrets.
 
 ```powershell
+npm run migrate:remote
 npm run deploy
 ```
 
-Cloudflare Worker публикует только account API; локальная админ-панель при этом не публикуется. Не пересоздавай `OPAQUE_SERVER_SETUP` после появления аккаунтов: существующие OPAQUE-записи перестанут проверяться.
+Cloudflare Worker публикует только account API; локальная админ-панель при этом не публикуется. `npm run deploy` временно подготавливает OPAQUE WASM как Wrangler-скомпилированный модуль и восстанавливает пакет после сборки, чтобы не расходовать лимит CPU Worker Free на компиляцию при запросе. Не запускай `wrangler deploy` напрямую. Не пересоздавай `OPAQUE_SERVER_SETUP` после появления аккаунтов: существующие OPAQUE-записи перестанут проверяться.
 
 ## API
 
