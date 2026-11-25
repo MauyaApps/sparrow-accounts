@@ -9,7 +9,7 @@
     {
       "binding": "DB",
       "database_name": "sparrow-account-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "02772897-89fa-4519-8bcf-cd27ca3c2108",
       "migrations_dir": "migrations"
     }
   ],
